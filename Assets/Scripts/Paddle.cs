@@ -8,7 +8,7 @@ public class Paddle : MonoBehaviour
     public bool isPlayer1;
     public float speed;
     public Rigidbody2D rb;
-    public Rigidbody2D ball;
+    public GameObject ball;
 
     private float movement;
     private Vector2 startPosition;
