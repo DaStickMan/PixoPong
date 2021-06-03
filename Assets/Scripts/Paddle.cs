@@ -27,8 +27,11 @@ public class Paddle : MonoBehaviour
         }
         else
         {
-            var distance = ball.transform.position - transform.position;
-            movement = distance.y > 0 ? 1 : -1;
+            if(ball.transform.position.x > 0)
+            {
+                var distance = ball.transform.position - transform.position;
+                movement = distance.y > 0 ? 1 : -1;
+            }
         }
 
 
