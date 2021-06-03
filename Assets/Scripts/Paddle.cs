@@ -5,16 +5,20 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
-    public bool isPlayer1;
-    public float speed;
-    public Rigidbody2D rb;
-    public GameObject ball;
+    [SerializeField] private bool isPlayer1;
+    [SerializeField] private float speed;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private GameObject ball;
+    [SerializeField] private int followDistance;
 
     private float movement;
     private Vector2 startPosition;
 
+    private List<Vector3> storedBallPositions;
+
     private void Start()
     {
+        storedBallPositions = new List<Vector3>();
         startPosition = transform.position;
     }
 
@@ -27,13 +31,15 @@ public class Paddle : MonoBehaviour
         }
         else
         {
-            if(ball.transform.position.x > 0)
+            storedBallPositions.Add(ball.transform.position);
+
+            if(storedBallPositions.Count > followDistance)
             {
-                var distance = ball.transform.position - transform.position;
+                var distance = storedBallPositions[0] - transform.position;
                 movement = distance.y > 0 ? 1 : -1;
+                storedBallPositions.RemoveAt(0);
             }
         }
-
 
         rb.velocity = new Vector2(rb.velocity.x, movement * speed);
     }

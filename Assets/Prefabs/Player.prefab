@@ -149,6 +149,7 @@ MonoBehaviour:
   speed: 5
   rb: {fileID: 759600426792200911}
   ball: {fileID: 0}
+  followDistance: 3
 --- !u!1 &7752672234021751669
 GameObject:
   m_ObjectHideFlags: 0

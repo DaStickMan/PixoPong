@@ -12,12 +12,6 @@ public class Ball : MonoBehaviour
     private int directionX;
     private int directionY;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        Launch();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Wall")
@@ -30,7 +24,7 @@ public class Ball : MonoBehaviour
         }
     }
 
-    void Launch()
+    public void Launch()
     {
         velocity.x = UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
         velocity.y = UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
@@ -45,5 +39,11 @@ public class Ball : MonoBehaviour
     {
         transform.position = Vector2.zero;
         Launch();
+    }
+
+    public void FinishGame()
+    {
+        velocity = Vector3.zero;
+        transform.position = Vector2.zero;        
     }
 }

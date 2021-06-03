@@ -10,14 +10,7 @@ public class Goal : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Ball"))
         {
-            if(isPlayerGoal)
-            {
-                GameObject.Find("_GM").GetComponent<GameManager>().Player2Scored();
-            }
-            else
-            {
-                GameObject.Find("_GM").GetComponent<GameManager>().Player1Scored();
-            }
+            GameObject.Find("_GM").GetComponent<GameManager>().Score(isPlayerGoal);
         }
     }
 }
