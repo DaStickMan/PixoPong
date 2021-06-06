@@ -1,0 +1,5 @@
+﻿{
+	"name": "Script",
+	 "references": [ "Unity.TextMeshPro" ],
+    "optionalUnityReferences": [ "TestAssemblies" ]
+}

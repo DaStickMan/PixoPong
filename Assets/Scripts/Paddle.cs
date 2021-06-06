@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
-    [SerializeField] private bool isPlayer1;
-    [SerializeField] private float speed;
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private GameObject ball;
-    [SerializeField] private int followDistance;
+    public bool isPlayer1 = false;
+    public int speed = 9;
+    public GameObject ball = null;
+    public int followDistance = 3;
 
-    private float movement;
+    public float movement;
+
     private Vector2 startPosition;
+    private Rigidbody2D rb;
 
     private List<Vector3> storedBallPositions;
 
@@ -20,31 +21,36 @@ public class Paddle : MonoBehaviour
     {
         storedBallPositions = new List<Vector3>();
         startPosition = transform.position;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
-    {
-
-        if (isPlayer1)
+    { 
+        if (isPlayer1 && movement != 2)
         {
-            movement = Input.GetAxis("Vertical2");
+            movement = Input.GetAxis("Vertical");
         }
-        else
+        else if(!isPlayer1)
         {
-            storedBallPositions.Add(ball.transform.position);
-
-            if(storedBallPositions.Count > followDistance)
-            {
-                var distance = storedBallPositions[0] - transform.position;
-                movement = distance.y > 0 ? 1 : -1;
-                storedBallPositions.RemoveAt(0);
-            }
+            StoreBallPositionByDefinedDistance();            
         }
 
         rb.velocity = new Vector2(rb.velocity.x, movement * speed);
     }
 
-    internal void Reset()
+    private void StoreBallPositionByDefinedDistance()
+    {
+        storedBallPositions.Add(ball.transform.position);
+
+        if (storedBallPositions.Count > followDistance)
+        {
+            var distance = storedBallPositions[0] - transform.position;
+            movement = distance.y > 0 ? 1 : -1;
+            storedBallPositions.RemoveAt(0);
+        }
+    }
+
+    public void Reset()
     {
         rb.velocity = Vector2.zero;
         transform.position = startPosition;

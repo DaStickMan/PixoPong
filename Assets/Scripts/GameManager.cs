@@ -18,40 +18,40 @@ public class GameManager : MonoBehaviour
     public GameObject player2Goal;
 
     [Header("UI")]
-    public TextMeshProUGUI Player1Text;
-    public TextMeshProUGUI Player2Text;
-    public TextMeshProUGUI CounterText;
-    public GameObject CounterPanel;
-    public GameObject MenuPanel;
+    public TextMeshProUGUI player1Text;
+    public TextMeshProUGUI player2Text;
+    public TextMeshProUGUI counterText;
+    public GameObject counterPanel;
+    public GameObject menuPanel;
 
     [Header("Game settings")]
-    public int WaitSecondsStartGame;
+    public int waitSecondsStartGame;
     public int winnerPoints;
     
-    private int Player1Score;
-    private int Player2Score;
+    private int player1Score;
+    private int player2Score;
 
-    internal void Score(bool isPlayerGoal)
+    public void Score(bool isPlayerGoal)
     {
         if (isPlayerGoal)
         {
-            Player1Score++;
-            Player1Text.text = Player1Score.ToString();            
+            player1Score++;
+            player1Text.text = player1Score.ToString();            
         }
         else
         {
-            Player2Score++;
-            Player2Text.text = Player2Score.ToString();
+            player2Score++;
+            player2Text.text = player2Score.ToString();
         }
 
-        if(Player2Score == winnerPoints || Player1Score == winnerPoints)
+        FinishGameOrContinue();        
+    }
+
+    private void FinishGameOrContinue()
+    {
+        if (player2Score == winnerPoints || player1Score == winnerPoints)
         {
-            string playerWins = Player1Score > Player2Score ? "Player 2 Wins!" : "Player 1 Wins!";
-
-            MenuPanel.GetComponentsInChildren<TextMeshProUGUI>()[0].text = playerWins;
-            MenuPanel.GetComponentsInChildren<TextMeshProUGUI>()[1].text = "Play again";
-
-            ResetScene();
+            PrepareSceneToPlayAgain();
         }
         else
         {
@@ -59,20 +59,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ResetScene()
+    private void PrepareSceneToPlayAgain()
     {
-        Player1Score = 0;
-        Player2Score = 0;
+        string playerWins = player1Score > player2Score ? "Player 2 Wins!" : "Player 1 Wins!";
 
-        Player1Text.text = Player1Score.ToString();
-        Player2Text.text = Player2Score.ToString();        
+        menuPanel.GetComponentsInChildren<TextMeshProUGUI>()[0].text = playerWins;
+        menuPanel.GetComponentsInChildren<TextMeshProUGUI>()[1].text = "Play again";
+
+        player1Score = 0;
+        player2Score = 0;
+
+        player1Text.text = player1Score.ToString();
+        player2Text.text = player2Score.ToString();        
 
         ball.GetComponent<Ball>().FinishGame();
         player1Paddle.GetComponent<Paddle>().Reset();
         player2Paddle.GetComponent<Paddle>().Reset();
 
-        MenuPanel.SetActive(true);
-        CounterPanel.SetActive(true);
+        menuPanel.SetActive(true);
+        counterPanel.SetActive(true);
     }
 
     private void ResetPostion()
@@ -82,31 +87,29 @@ public class GameManager : MonoBehaviour
         player2Paddle.GetComponent<Paddle>().Reset();
     }
 
-    private IEnumerator CountSeconds()
+    private IEnumerator CountSecondsToStart()
     {
-        for (int i = WaitSecondsStartGame; i >= 0; i--)
+        for (int i = waitSecondsStartGame; i >= 0; i--)
         {
             if(i == 0)
             {
-                CounterText.text = "GO";
+                counterText.text = "GO";
             }
             else
             {
-                CounterText.text = i.ToString();
+                counterText.text = i.ToString();
             }
 
             yield return new WaitForSeconds(1f);            
         }
 
-        
-
-        CounterPanel.SetActive(false);
+        counterPanel.SetActive(false);
         ball.GetComponent<Ball>().Launch();
     }
 
     public void StartGame()
     {
-        MenuPanel.SetActive(false);
-        StartCoroutine(CountSeconds());
+        menuPanel.SetActive(false);
+        StartCoroutine(CountSecondsToStart());
     }
 }

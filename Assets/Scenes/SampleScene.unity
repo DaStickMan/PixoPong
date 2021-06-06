@@ -814,12 +814,12 @@ MonoBehaviour:
   player1Goal: {fileID: 2090381840}
   player2Paddle: {fileID: 1352338000}
   player2Goal: {fileID: 1544120751}
-  Player1Text: {fileID: 1643493688}
-  Player2Text: {fileID: 1732430970}
-  CounterText: {fileID: 661659692}
-  CounterPanel: {fileID: 1417040851}
-  MenuPanel: {fileID: 136330769}
-  WaitSecondsStartGame: 3
+  player1Text: {fileID: 1643493688}
+  player2Text: {fileID: 1732430970}
+  counterText: {fileID: 661659692}
+  counterPanel: {fileID: 1417040851}
+  menuPanel: {fileID: 136330769}
+  waitSecondsStartGame: 3
   winnerPoints: 3
 --- !u!1 &987146341
 GameObject:
@@ -1259,6 +1259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerGoal: 0
+  gameManager: {fileID: 937776864}
 --- !u!1 &1633129782
 GameObject:
   m_ObjectHideFlags: 0
@@ -2266,6 +2267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerGoal: 1
+  gameManager: {fileID: 937776864}
 --- !u!1001 &759600427370956813
 PrefabInstance:
   m_ObjectHideFlags: 0

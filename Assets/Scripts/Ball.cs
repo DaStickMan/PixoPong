@@ -9,9 +9,6 @@ public class Ball : MonoBehaviour
 
     private Vector3 velocity;
 
-    private int directionX;
-    private int directionY;
-    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Wall")
