@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
-    public bool isPlayer1 = false;
-    public int speed = 9;
-    public GameObject ball = null;
-    public int followDistance = 3;
+    public bool isPlayer1;
+    public int speed;
+    public GameObject ball;
+    public int followDistance;
 
     public float movement;
 
@@ -24,11 +24,12 @@ public class Paddle : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     { 
         if (isPlayer1 && movement != 2)
         {
             movement = Input.GetAxis("Vertical");
+
         }
         else if(!isPlayer1)
         {
@@ -38,14 +39,23 @@ public class Paddle : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, movement * speed);
     }
 
-    private void StoreBallPositionByDefinedDistance()
+    private void  StoreBallPositionByDefinedDistance()
     {
-        storedBallPositions.Add(ball.transform.position);
+        if (storedBallPositions.Count == 0)
+        {
+            storedBallPositions.Add(ball.transform.position); //store the players currect position
+            return;
+        }
+        else if (storedBallPositions[storedBallPositions.Count - 1] != ball.transform.position)
+        {
+            storedBallPositions.Add(ball.transform.position); //store the position every frame
+        }
 
         if (storedBallPositions.Count > followDistance)
         {
-            var distance = storedBallPositions[0] - transform.position;
-            movement = distance.y > 0 ? 1 : -1;
+            var distance = storedBallPositions[0] - transform.position;      
+            movement = distance.y > 1 ? 1 : distance.y;
+            movement = distance.y < -1 ? -1 : distance.y;
             storedBallPositions.RemoveAt(0);
         }
     }
